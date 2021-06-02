@@ -1,0 +1,56 @@
+.creator {
+    width: 30%;
+    min-width: 25s0px;
+    display:flex;
+    flex-direction: column;
+    padding-right: 20px;
+}
+
+/* .creator-box {
+    width:60%;
+} */
+
+.box {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-group {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.input-group:last-child {
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.input-group button {
+    width: 50%;
+    max-width: 150px;
+}
+
+.input-group label {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.box .list table {
+    font-size: 1.25rem;
+}
+
+.box .list table tr td, th{
+    padding: 0 15px 15px 0;
+    text-align: center;
+}
+
+.box .list table tr .dish-td, .dish-th{
+    width: 30%;
+}
+
+.box .list table tr .date-td, .date-th{
+    width: 20%;
+}

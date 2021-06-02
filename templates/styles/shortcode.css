@@ -1,0 +1,28 @@
+.set {
+    display:flex;
+    flex-direction: column;
+}
+
+.set .dish-line span {
+    background: #EB895B;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 5px;
+    text-align: center;
+    min-width: 1.6em;
+    height: 1.6em;
+}
+
+.set .dish-line {
+    padding: 10px;
+    display: flex;
+}
+
+.set .dish-line p {
+    padding-left: 10px;
+}
