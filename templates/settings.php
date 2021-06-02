@@ -10,6 +10,15 @@
 
             <form class="creator-box" action="../wp-json/RLMApi/v1/addLaunch" method='POST'>
 
+            <?php
+                if (isset($_SESSION['message'])) {
+                    echo ("
+                        <div class='message " . $_SESSION['message'][1] . "'><p>" . $_SESSION['message'][0] . "</p></div>
+                    ");
+                    unset($_SESSION['message']);
+                }
+            ?>
+
             <div class="input-group">
                 <label for="firstDish">First dish</label>
                 <input type='text' name='firstDish'>
@@ -32,7 +41,12 @@
 
             <div class="input-group">
                 <label for="date">Date</label>
-                <input type='date' name='date'>
+
+                <?php 
+                    $today = date_format(new DateTime(), 'Y-m-d');
+                    echo "<input type='date' name='date' value=$today>";
+                ?>
+                
             </div>
 
             <div class="input-group">
@@ -58,25 +72,28 @@
                     require_once plugin_dir_path(__FILE__) . '../RLMApi.php';
                     $lunches = RLMApi::getLunches();
 
+                    $today = date_format(new DateTime(), 'Y-m-d');
+                    $todayBold='';
+
                     foreach ($lunches as $lunch) {
 
+                        if($today === $lunch->date) {
+                            $todayBold = "class='today-row'";
+                        }
+
                         echo ("
-                        <tr>
+                        <tr" . $todayBold . ">
                             <td class='dish-td'>$lunch->first_dish</td>
                             <td class='dish-td'>$lunch->second_dish</td>
                             <td class='dish-td'>$lunch->drink</td>
                             <td class='dish-td'>$lunch->dessert</td>
-                            <td class='date-td'>$lunch->date</td>
+                            <td class='date-td'>" . date_format(new DateTime($lunch->date), 'd-m-Y') . "</td>
                         </tr>
                     ");
                     }
 
                 ?>
-
-
-
                 
-
             </table>
 
         </div>

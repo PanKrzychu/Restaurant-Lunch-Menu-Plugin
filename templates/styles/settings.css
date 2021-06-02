@@ -22,6 +22,31 @@
     padding-bottom: 20px;
 }
 
+.message {
+    height: 30px;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.message p {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.message.fail {
+    background-color: rgb(255, 190, 201);
+    border-left: solid 3px red;
+}
+
+.message.success {
+    background-color: rgb(195, 255, 208);
+    border-left: solid 3px rgb(0, 255, 55);
+}
+
 .input-group:last-child {
     padding-top: 15px;
     display: flex;
@@ -36,6 +61,10 @@
 .input-group label {
     font-weight: 700;
     font-size: 1rem;
+}
+
+.box .list {
+    border-left: solid 3px #000;
 }
 
 .box .list table {

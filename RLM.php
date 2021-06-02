@@ -21,6 +21,7 @@ require_once plugin_dir_path(__FILE__) . 'RLMApi.php';
 
 $plugin = plugin_basename(__FILE__);
 
+session_start();
 add_action( 'admin_menu', 'rlm_add_admin_menu' );
 add_filter("plugin_action_links_$plugin", 'settings_link');
 register_activation_hook( __FILE__, 'createDbTable' );
@@ -47,7 +48,7 @@ function settings_link($links)
 
 
 
-function rlm_options_page(  ) { 
+function rlm_options_page( $msg ) { 
 
 	require_once plugin_dir_path(__FILE__) . 'templates/settings.php';
 

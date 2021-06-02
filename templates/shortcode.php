@@ -21,6 +21,16 @@ if(count($lunches) != 0) {
                 <span>2</span>
                 <p id=second-dish>$lunch->second_dish</p>
             </div>
+
+            <div class='dish-line'>
+                <span>3</span>
+                <p id=second-dish>$lunch->drink</p>
+            </div>
+
+            <div class='dish-line'>
+                <span>4</span>
+                <p id=second-dish>$lunch->dessert</p>
+            </div>
             
         </div>
 

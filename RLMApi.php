@@ -16,24 +16,41 @@ class RLMApi
                 global $wpdb;
                 
                 $table_name = $wpdb->prefix . 'rlm';
-                
-                $wpdb->insert( 
-                    $table_name, 
-                    array( 
-                        'first_dish' => $data['firstDish'], 
-                        'second_dish' => $data['secondDish'], 
-                        'drink' => $data['drink'], 
-                        'dessert' => $data['dessert'], 
-                        'date' => $data['date']
-                    ) 
-                    );
+
+                $query = "SELECT date FROM $table_name";
+
+                $dates = $wpdb->get_results($query);
+
+                $contain = FALSE;
+                foreach ($dates as $date) {
+                    if($date->date === $data['date']) {
+                        $contain = TRUE;
+                        break;
+                    }
+                }
+
+                if(!$contain) {
+                    $wpdb->insert( 
+                        $table_name, 
+                        array( 
+                            'first_dish' => $data['firstDish'], 
+                            'second_dish' => $data['secondDish'], 
+                            'drink' => $data['drink'], 
+                            'dessert' => $data['dessert'], 
+                            'date' => $data['date']
+                        ) 
+                        );
+                    $_SESSION['message'] = array('Dodano lunch do bazy danych.', 'success');
+                } else {
+                    $_SESSION['message'] = array('Lunch na ten dzień już istnieje.', 'fail');
+                }
 
                 wp_safe_redirect(
                     esc_url(
                         site_url('/wp-admin/admin.php?page=rlm')
                     )
                     );
-                    exit();
+                exit();
 
             }
         ));
@@ -53,7 +70,7 @@ class RLMApi
         $table_name = $wpdb->prefix . 'rlm';
 
         // $query = "SELECT * FROM $table_name WHERE date >= '$before' AND date <= '$next'";
-        $query = "SELECT * FROM $table_name ORDER BY date DESC";
+        $query = "SELECT * FROM $table_name ORDER BY date ASC";
         
         $response = $wpdb->get_results($query);
 
