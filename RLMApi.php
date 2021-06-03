@@ -17,6 +17,10 @@ class RLMApi
                 
                 $table_name = $wpdb->prefix . 'rlm';
 
+                if($data['id']) {
+                    $wpdb->delete($table_name, array('id' => $data['id']));
+                };
+
                 $query = "SELECT date FROM $table_name";
 
                 $dates = $wpdb->get_results($query);
@@ -40,7 +44,12 @@ class RLMApi
                             'date' => $data['date']
                         ) 
                         );
-                    $_SESSION['creator_message'] = array('Dodano lunch do bazy danych.', 'success');
+
+                    if($data['id']) {
+                        $_SESSION['creator_message'] = array('Zaktualizowano lunch.', 'success');
+                    } else {
+                        $_SESSION['creator_message'] = array('Dodano lunch do bazy danych.', 'success');
+                    }
                 } else {
                     $_SESSION['creator_message'] = array('Lunch na ten dzień już istnieje.', 'fail');
                 }
@@ -56,6 +65,16 @@ class RLMApi
         ));
 
     }
+
+    // function deleteLunch($id) {
+    //     global $wpdb;
+                
+    //     $table_name = $wpdb->prefix . 'rlm';
+        
+    //     $response = $wpdb->delete($table_name, array('id' => $id));
+
+    //     return $response;
+    // }
 
     public static function getLunchForToday() {
         global $wpdb;
@@ -83,6 +102,20 @@ class RLMApi
 
         return FALSE;
         
+    }
+
+    public static function getLunchInfo($id) {
+        global $wpdb;
+                
+        $table_name = $wpdb->prefix . 'rlm';
+
+        $query = "SELECT * FROM $table_name WHERE id = '$id'";
+        
+        $result = $wpdb->get_results($query);
+
+        $response = $result[0];
+
+        return $response;
     }
     
 }

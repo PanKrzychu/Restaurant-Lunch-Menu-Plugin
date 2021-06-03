@@ -83,17 +83,17 @@ function createDbTable() {
     dbDelta( $sql );
 }
 
-function removeLunches() {
-    global $wpdb;
+// function removeLunches() {
+//     global $wpdb;
 
-    $before = date_sub(new DateTime(), date_interval_create_from_date_string("7 days"));
-    $before = date_format($before, 'Y-m-d');
+//     $before = date_sub(new DateTime(), date_interval_create_from_date_string("7 days"));
+//     $before = date_format($before, 'Y-m-d');
             
-    $table_name = $wpdb->prefix . 'menu';
+//     $table_name = $wpdb->prefix . 'menu';
 
-    if($wpdb->delete($table_name, array( 'date' <= $before ))) return TRUE;
+//     if($wpdb->delete($table_name, array( 'date' <= $before ))) return TRUE;
 
-    return FALSE;
+//     return FALSE;
     
-}
+// }
 
