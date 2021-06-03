@@ -34,15 +34,15 @@ class RLMApi
                         $table_name, 
                         array( 
                             'first_dish' => $data['firstDish'], 
-                            'second_dish' => $data['secondDish'], 
+                            'main_course' => $data['secondDish'], 
                             'drink' => $data['drink'], 
                             'dessert' => $data['dessert'], 
                             'date' => $data['date']
                         ) 
                         );
-                    $_SESSION['message'] = array('Dodano lunch do bazy danych.', 'success');
+                    $_SESSION['creator_message'] = array('Dodano lunch do bazy danych.', 'success');
                 } else {
-                    $_SESSION['message'] = array('Lunch na ten dzień już istnieje.', 'fail');
+                    $_SESSION['creator_message'] = array('Lunch na ten dzień już istnieje.', 'fail');
                 }
 
                 wp_safe_redirect(
@@ -55,28 +55,6 @@ class RLMApi
             }
         ));
 
-    }
-
-    public static function getLunches() {
-        global $wpdb;
-
-        // $today = new DateTime();
-        // $next = date_add($today, date_interval_create_from_date_string("7 days"));
-        // $next = date_format($next, 'Y-m-d');
-        // $today = new DateTime();
-        // $before = date_sub($today, date_interval_create_from_date_string("7 days"));
-        // $before = date_format($before, 'Y-m-d');
-                
-        $table_name = $wpdb->prefix . 'rlm';
-
-        // $query = "SELECT * FROM $table_name WHERE date >= '$before' AND date <= '$next'";
-        $query = "SELECT * FROM $table_name ORDER BY date ASC";
-        
-        $response = $wpdb->get_results($query);
-
-        // echo $query;
-
-        return $response;
     }
 
     public static function getLunchForToday() {

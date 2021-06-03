@@ -2,31 +2,31 @@
 <div class="container">
 
     <h2>Restaurant Lunch Menu</h2>
-    <h4>Add lunches to the list</h4>
+    <h4>Add lunches to the list. To show the menu on your page use the shortcode [rlm].</h4>
 
     <div class="box">
 
         <div class="creator">
 
-            <form class="creator-box" action="../wp-json/RLMApi/v1/addLaunch" method='POST'>
+        <?php
+            if (isset($_SESSION['creator_message'])) {
+                echo ("
+                    <div class='message " . $_SESSION['creator_message'][1] . "'><p>" . $_SESSION['creator_message'][0] . "</p></div>
+                ");
+                unset($_SESSION['creator_message']);
+            }
+        ?>
 
-            <?php
-                if (isset($_SESSION['message'])) {
-                    echo ("
-                        <div class='message " . $_SESSION['message'][1] . "'><p>" . $_SESSION['message'][0] . "</p></div>
-                    ");
-                    unset($_SESSION['message']);
-                }
-            ?>
+            <form class="creator-box" action="../wp-json/RLMApi/v1/addLaunch" method='POST'>
 
             <div class="input-group">
                 <label for="firstDish">First dish</label>
-                <input type='text' name='firstDish'>
+                <textarea maxlength="220" name='firstDish'></textarea>
             </div>
             
             <div class="input-group">
                 <label for="secondDish">Main course</label>
-                <input type='text' name='secondDish'>
+                <textarea maxlength="220" name='secondDish'></textarea>
             </div>
 
             <div class="input-group">
@@ -58,45 +58,16 @@
 
         <div class="list">
 
+        <?php 
+        
+        require_once plugin_dir_path(__FILE__) . 'SettingsTable.php';
 
-            <table>
-                <tr>
-                    <th class='dish-th'>First dish:</th>
-                    <th class='dish-th'>Main course:</th> 
-                    <th class='dish-th'>Drink:</th> 
-                    <th class='dish-th'>Dessert:</th> 
-                    <th class='date-th'>Date:</th>
-                </tr>
-
-                <?php
-                    require_once plugin_dir_path(__FILE__) . '../RLMApi.php';
-                    $lunches = RLMApi::getLunches();
-
-                    $today = date_format(new DateTime(), 'Y-m-d');
-                    $todayBold='';
-
-                    foreach ($lunches as $lunch) {
-
-                        if($today === $lunch->date) {
-                            $todayBold = "class='today-row'";
-                        }
-
-                        echo ("
-                        <tr" . $todayBold . ">
-                            <td class='dish-td'>$lunch->first_dish</td>
-                            <td class='dish-td'>$lunch->second_dish</td>
-                            <td class='dish-td'>$lunch->drink</td>
-                            <td class='dish-td'>$lunch->dessert</td>
-                            <td class='date-td'>" . date_format(new DateTime($lunch->date), 'd-m-Y') . "</td>
-                        </tr>
-                    ");
-                    }
-
-                ?>
-                
-            </table>
-
+        render_settings_table();
+        
+        ?>
+            
         </div>
+
     </div>
 
 </div>

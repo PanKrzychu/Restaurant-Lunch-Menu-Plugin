@@ -72,7 +72,7 @@ function createDbTable() {
     $sql = "CREATE TABLE $table_name (
         id mediumint(9) NOT NULL AUTO_INCREMENT,
         first_dish tinytext NOT NULL,
-        second_dish tinytext NOT NULL,
+        main_course tinytext NOT NULL,
         drink tinytext NOT NULL,
         dessert tinytext NOT NULL,
         date date DEFAULT '2021-06-01 09:00:00' NOT NULL,

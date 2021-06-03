@@ -1,18 +1,37 @@
-.creator {
+/* .creator-box {
+    width:60%;
+} */
+
+.container {
+    padding-right: 20px;
+}
+
+.container h4 {
+    font-style: italic;
+}
+
+.box {
+    display: flex;
+    flex-direction: row;
+}
+
+.box .creator {
     width: 30%;
-    min-width: 25s0px;
+    min-width: 350px;
     display:flex;
     flex-direction: column;
     padding-right: 20px;
 }
 
-/* .creator-box {
-    width:60%;
-} */
+.box .creator .input-group input[type=textarea] {
+    height: 50px;
+    resize: vertical;
+    box-shadow: 0 0 0 transparent;
+    border-radius: 4px;
+    border: 1px solid #8c8f94;
+    background-color: #fff;
+    overflow: auto;
 
-.box {
-    display: flex;
-    flex-direction: row;
 }
 
 .input-group {
@@ -50,12 +69,22 @@
 .input-group:last-child {
     padding-top: 15px;
     display: flex;
-    align-items: center;
+    align-items: left;
 }
 
 .input-group button {
-    width: 50%;
-    max-width: 150px;
+    width: fit-content;
+    padding: 0 10px;
+    color: #2271b1;
+    border-color: #2271b1;
+    background: #f6f7f7;
+    cursor: pointer;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    font-size: 13px;
+    min-height: 30px;
 }
 
 .input-group label {
@@ -63,23 +92,14 @@
     font-size: 1rem;
 }
 
-.box .list {
-    border-left: solid 3px #000;
+.tablenav {
+    height: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.box .list table {
-    font-size: 1.25rem;
-}
-
-.box .list table tr td, th{
-    padding: 0 15px 15px 0;
-    text-align: center;
-}
-
-.box .list table tr .dish-td, .dish-th{
-    width: 30%;
-}
-
-.box .list table tr .date-td, .date-th{
-    width: 20%;
-}
+@media only screen and (max-width: 1300px) {
+    .box {
+      flex-direction: column;
+    }
+  }
