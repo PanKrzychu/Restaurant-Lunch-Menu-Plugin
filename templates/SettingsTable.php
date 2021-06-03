@@ -116,6 +116,22 @@ class SettingsTable extends WP_List_Table {
         return $response;
     }
 
+    function deleteLunches($lunches) {
+        global $wpdb;
+                
+        $table_name = $wpdb->prefix . 'rlm';
+
+        $status = TRUE;
+
+        foreach ($lunches as $id) {
+            if(!$wpdb->delete($table_name, array('id' => $id))) {
+                $status = FALSE;
+            }
+        }
+
+        return $status;
+    }
+
 
     /** ************************************************************************
      * Recommended. This method is called when the parent class can't find a method
@@ -287,11 +303,21 @@ class SettingsTable extends WP_List_Table {
         
         //Detect when a bulk action is being triggered...
         if( 'delete'===$this->current_action() ) {
-            if($this->deleteLunch($_REQUEST['lunch'])) {
-                $_SESSION['table_message'] = array('Usunięto lunch.', 'success');
+
+            if(is_array($_REQUEST['lunch'])) {
+                if($this->deleteLunches($_REQUEST['lunch'])) {
+                    $_SESSION['table_message'] = array('Usunięto lunche.', 'success');
+                } else {
+                    $_SESSION['table_message'] = array('Niestety, nie udało się usunąć lunchy.', 'fail');
+                };
             } else {
-                $_SESSION['table_message'] = array('Niestety, nie udało się usunąć lunchu.', 'fail');
-            };
+                if($this->deleteLunch($_REQUEST['lunch'])) {
+                    $_SESSION['table_message'] = array('Usunięto lunch.', 'success');
+                } else {
+                    $_SESSION['table_message'] = array('Niestety, nie udało się usunąć lunchu.', 'fail');
+                };
+            }
+            
             // wp_die('Items deleted (or they would be if we had items to delete)!');
         }
         
