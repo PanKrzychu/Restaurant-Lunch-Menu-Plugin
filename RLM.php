@@ -13,24 +13,49 @@ Author URI: https://markofani.com.pl/
 Text Domain: restaurant-lunch-menu
 */
 
-if(!defined('ABSPATH'))
-{
-	die ('You can not access this file!');
+if (!defined('ABSPATH')) {
+    die('You can not access this file!');
 }
+
 require_once plugin_dir_path(__FILE__) . 'RLMApi.php';
 
 $plugin = plugin_basename(__FILE__);
 
 session_start();
-add_action( 'admin_menu', 'rlm_add_admin_menu' );
-add_filter("plugin_action_links_$plugin", 'settings_link');
-register_activation_hook( __FILE__, 'createDbTable' );
-add_shortcode('rlm', 'getShortcode');
 
+function rlm_activation_function()
+{
+    // Kod do wykonania podczas aktywacji wtyczki
+    rlm_create_db_table();
+}
+
+function rlm_deactivation_function()
+{
+    // Kod do wykonania podczas dezaktywacji wtyczki
+    // Pamiętaj, żeby w odpowiedniej funkcji obsłużyć odrejestrowanie zaplanowanych zadań lub eventów
+    wp_clear_scheduled_hook('removeLunches');
+}
+
+function rlm_uninstall_function()
+{
+    // Kod do wykonania podczas deinstalacji wtyczki
+    // Pamiętaj, żeby w odpowiedniej funkcji obsłużyć deinstalację i czyszczenie danych
+}
+
+register_activation_hook(__FILE__, 'rlm_activation_function');
+register_deactivation_hook(__FILE__, 'rlm_deactivation_function');
+register_uninstall_hook(__FILE__, 'rlm_uninstall_function');
+
+add_action('admin_menu', 'rlm_add_admin_menu');
+add_filter("plugin_action_links_$plugin", 'rlm_settings_link');
+
+
+add_shortcode('rlm', 'getShortcode');
 add_action('rest_api_init', 'RLMApi::registerRoutes');
-wp_schedule_event( time(), 'hourly', 'removeLunches' );
-wp_enqueue_style('settings', plugins_url('Restaurant Lunch Menu/templates/styles/settings.css'));
-wp_enqueue_style('shortcode', plugins_url('Restaurant Lunch Menu/templates/styles/shortcode.css'));
+wp_schedule_event(time(), 'hourly', 'removeLunches');
+wp_enqueue_style('rlm_settings', plugins_url('Restaurant Lunch Menu/templates/styles/settings.css'));
+wp_enqueue_style('rlm_shortcode', plugins_url('Restaurant Lunch Menu/templates/styles/shortcode.css'));
+
 
 
 function rlm_add_admin_menu(  ) { 
@@ -39,7 +64,7 @@ function rlm_add_admin_menu(  ) {
 
 }
 
-function settings_link($links)
+function rlm_settings_link($links)
 {
 	$settings_link = '<a href="admin.php?page=rlm">Strona wtyczki</a>';
 	array_push($links, $settings_link);
@@ -62,7 +87,7 @@ function getShortcode() {
 
 }
 
-function createDbTable() {
+function rlm_create_db_table() {
     global $wpdb;
 
     $table_name = $wpdb->prefix . "rlm";
